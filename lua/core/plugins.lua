@@ -20,9 +20,9 @@ return require('packer').startup(function(use)
   use "terrortylor/nvim-comment"
   use 'whatyouhide/vim-gotham'
   use 'nvim-tree/nvim-web-devicons'
+  use 'nyoom-engineering/oxocarbon.nvim'
   use 'nvim-lualine/lualine.nvim'
   use 'mhinz/vim-startify'
-  use 'olimorris/onedarkpro.nvim'
   use 'nvim-treesitter/nvim-treesitter'
   use {
     'nvim-telescope/telescope.nvim',

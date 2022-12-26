@@ -32,7 +32,7 @@ require("nvim-tree").setup({
 require('lualine').setup {
   options = {
     -- ... your lualine config
-    theme = 'onedark_dark'
+    theme = 'oxocarbon'
     -- ... your lualine config
   }
 }

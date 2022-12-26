@@ -2,7 +2,8 @@ require("core.keymaps")
 require("core.plugins")
 require("core.plugin_config")
 
-vim.cmd([[colorscheme onedark_dark]])
+vim.opt.background = "dark"
+vim.cmd([[colorscheme oxocarbon]])
 
 vim.opt.signcolumn = 'yes'
 

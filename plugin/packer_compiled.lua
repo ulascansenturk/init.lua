@@ -189,10 +189,10 @@ _G.packer_plugins = {
     path = "/Users/ulas/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
-  ["onedarkpro.nvim"] = {
+  ["oxocarbon.nvim"] = {
     loaded = true,
-    path = "/Users/ulas/.local/share/nvim/site/pack/packer/start/onedarkpro.nvim",
-    url = "https://github.com/olimorris/onedarkpro.nvim"
+    path = "/Users/ulas/.local/share/nvim/site/pack/packer/start/oxocarbon.nvim",
+    url = "https://github.com/nyoom-engineering/oxocarbon.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,

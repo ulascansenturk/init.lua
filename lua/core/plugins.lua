@@ -13,11 +13,16 @@ local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
+  use 'fatih/vim-go'
   use 'nvim-tree/nvim-tree.lua'
+  use 'rktjmp/lush.nvim'
+
+  use "terrortylor/nvim-comment"
+  use 'whatyouhide/vim-gotham'
   use 'nvim-tree/nvim-web-devicons'
   use 'nvim-lualine/lualine.nvim'
   use 'mhinz/vim-startify'
-  use'folke/tokyonight.nvim'
+  use 'olimorris/onedarkpro.nvim'
   use 'nvim-treesitter/nvim-treesitter'
   use {
     'nvim-telescope/telescope.nvim',
@@ -27,13 +32,20 @@ return require('packer').startup(function(use)
   use 'github/copilot.vim'
   use 'jiangmiao/auto-pairs'
   use 'tpope/vim-fugitive'
-  use 'tribela/vim-transparent'
+
+  use {
+    'ojroques/nvim-lspfuzzy',
+    requires = {
+      {'junegunn/fzf'},
+      {'junegunn/fzf.vim'},  -- to enable preview (optional)
+    },
+  }
 
 
 
 
 
-  -- LSP CONF 
+  -- LSP CONF
   use {
     'VonHeikemen/lsp-zero.nvim',
     requires = {

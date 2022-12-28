@@ -33,13 +33,6 @@ return require('packer').startup(function(use)
   use 'jiangmiao/auto-pairs'
   use 'tpope/vim-fugitive'
 
-  use {
-    'ojroques/nvim-lspfuzzy',
-    requires = {
-      {'junegunn/fzf'},
-      {'junegunn/fzf.vim'},  -- to enable preview (optional)
-    },
-  }
 
 
 

@@ -11,7 +11,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
-lvim.colorscheme = "oxocarbon"
+lvim.colorscheme = "lunar"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -23,6 +23,10 @@ lvim.leader = " "
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+
+
+
+
 
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
@@ -179,6 +183,8 @@ linters.setup {
 }
 
 
+
+
 -- Additional Plugins
 lvim.plugins = {
   {
@@ -191,6 +197,34 @@ lvim.plugins = {
   },
   {
     "github/copilot.vim"
+  },
+  {
+    "p00f/nvim-ts-rainbow"
+  },
+  {
+    "tpope/vim-rails"
+  },
+  {
+    "tpope/vim-fugitive"
+  }
+}
+
+
+
+
+
+require("nvim-treesitter.configs").setup {
+  highlight = {
+    -- ...
+  },
+  -- ...
+  rainbow = {
+    enable = true,
+    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
   }
 }
 

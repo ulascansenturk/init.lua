@@ -1,21 +1,18 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
-lvim.colorscheme = "lunar"
+lvim.colorscheme = "onedark"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
-
-
+--
+-- Lua
+require('onedark').setup {
+  style = 'dark',
+  lualine = {
+    transparent = true, -- lualine center bar transparency
+  },
+}
+require('onedark').load()
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = " "
@@ -25,37 +22,37 @@ lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 
 
+lvim.transparent_window = false
+
+vim.opt.shell = "/bin/sh"
 
 
+--Indent blankline settings
+vim.opt.termguicolors = true
+vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
 
--- unmap a default keymapping
--- vim.keymap.del("n", "<C-Up>")
--- override a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
+vim.opt.list = true
+vim.opt.listchars:append "space:⋅"
+vim.opt.listchars:append "eol:↴"
 
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
--- local _, actions = pcall(require, "telescope.actions")
--- lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
---   -- for normal mode
---   n = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---   },
--- }
+require("indent_blankline").setup {
+  space_char_blankline = " ",
+  char_highlight_list = {
+    "IndentBlanklineIndent1",
+    "IndentBlanklineIndent2",
+    "IndentBlanklineIndent3",
+    "IndentBlanklineIndent4",
+    "IndentBlanklineIndent5",
+    "IndentBlanklineIndent6",
+  },
+}
 
--- Change theme settings
--- lvim.builtin.theme.options.dim_inactive = true
--- lvim.builtin.theme.options.style = "storm"
 
--- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["x"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
@@ -66,6 +63,41 @@ lvim.builtin.which_key.mappings["t"] = {
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 }
+
+lvim.builtin.lualine.style = "default" -- or "none"
+
+
+require('lspsaga').setup({})
+local keymap = vim.keymap.set
+
+keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
+
+
+keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
+keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
+keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+keymap("n", "sv", "<cmd>Lspsaga show_cursor_diagnostics<CR>")
+keymap("n", "sb", "<cmd>Lspsaga show_buf_diagnostics<CR>")
+
+keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>")
+keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
+keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
+
+
+
+keymap("n", "<Leader>tt", "<cmd>Lspsaga term_toggle<CR>")
+
+
+
+
+
+
+
+
+
+
+
 
 
 local tbuiltin = require("telescope.builtin")
@@ -102,6 +134,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
+lvim.builtin.treesitter.matchup.enable = true
 
 -- generic LSP settings
 
@@ -196,18 +229,26 @@ lvim.plugins = {
 
   },
   {
-    "github/copilot.vim"
-  },
-  {
-    "p00f/nvim-ts-rainbow"
+    "zbirenbaum/copilot.lua"
   },
   {
     "tpope/vim-rails"
   },
   {
     "tpope/vim-fugitive"
-  }
+  },
+  {
+    "EdenEast/nightfox.nvim"
+  },
+  {
+    "glepnir/lspsaga.nvim"
+  },
+  {
+    "navarasu/onedark.nvim"
+  },
 }
+
+
 
 
 

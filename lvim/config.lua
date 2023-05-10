@@ -6,13 +6,6 @@ lvim.colorscheme = "onedark"
 -- lvim.use_icons = false
 --
 -- Lua
-require('onedark').setup {
-  style = 'dark',
-  lualine = {
-    transparent = true, -- lualine center bar transparency
-  },
-}
-require('onedark').load()
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = " "
@@ -24,10 +17,9 @@ lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 
 lvim.transparent_window = false
 
+
 vim.opt.shell = "/bin/sh"
 
-
---Indent blankline settings
 vim.opt.termguicolors = true
 vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
@@ -67,11 +59,16 @@ lvim.builtin.which_key.mappings["t"] = {
 lvim.builtin.lualine.style = "default" -- or "none"
 
 
-require('lspsaga').setup({})
 local keymap = vim.keymap.set
 
-keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
 
+
+keymap("n", "fmt", ":GoFmt<CR>")
+
+keymap("n", "mmm", ":GoImports<CR>")
+
+
+keymap("n", "<Leader>c", ":lua require('ror.commands').list_commands()<CR>", { silent = true })
 
 keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
 keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
@@ -190,11 +187,11 @@ formatters.setup {
   --   ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
   --   filetypes = { "typescript", "typescriptreact" },
   -- },
-  { command = "rubocop", filetypes = { "ruby" } },
+  { command = "rubocop",   filetypes = { "ruby" } },
 
   { command = "goimports", filetypes = { "go" } },
 
-  { command = "gofmt", filetypes = { "go" } },
+  { command = "gofmt",     filetypes = { "go" } },
 
 }
 
@@ -217,7 +214,6 @@ linters.setup {
 
 
 
-
 -- Additional Plugins
 lvim.plugins = {
   {
@@ -229,12 +225,6 @@ lvim.plugins = {
 
   },
   {
-    "zbirenbaum/copilot.lua"
-  },
-  {
-    "tpope/vim-rails"
-  },
-  {
     "tpope/vim-fugitive"
   },
   {
@@ -244,9 +234,81 @@ lvim.plugins = {
     "glepnir/lspsaga.nvim"
   },
   {
-    "navarasu/onedark.nvim"
+    "ray-x/lsp_signature.nvim",
+    event = "BufRead",
+    config = function() require "lsp_signature".on_attach() end,
   },
+  {
+    "karb94/neoscroll.nvim",
+    event = "WinScrolled",
+    config = function()
+      require('neoscroll').setup({
+        -- All these keys will be mapped to their corresponding default scrolling animation
+        mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
+          '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
+        hide_cursor = true,          -- Hide cursor while scrolling
+        stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+        use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+        respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+        easing_function = nil,       -- Default easing function
+        pre_hook = nil,              -- Function to run before the scrolling animation starts
+        post_hook = nil,             -- Function to run after the scrolling animation ends
+      })
+    end
+  },
+  {
+    "wakatime/vim-wakatime"
+  },
+  {
+    "tpope/vim-bundler",
+    cmd = { "Bundler", "Bopen", "Bsplit", "Btabedit" }
+  },
+  {
+    "tpope/vim-rails",
+    cmd = {
+      "Eview",
+      "Econtroller",
+      "Emodel",
+      "Smodel",
+      "Sview",
+      "Scontroller",
+      "Vmodel",
+      "Vview",
+      "Vcontroller",
+      "Tmodel",
+      "Tview",
+      "Tcontroller",
+      "Rails",
+      "Generate",
+      "Runner",
+      "Extract"
+    }
+  },
+  {
+    "fatih/vim-go"
+  },
+  {
+    "weizheheng/ror.nvim",
+
+  },
+  {
+    'navarasu/onedark.nvim',
+  }
+
 }
+
+table.insert(lvim.plugins, {
+  "zbirenbaum/copilot-cmp",
+  event = "InsertEnter",
+  dependencies = { "zbirenbaum/copilot.lua" },
+  config = function()
+    vim.defer_fn(function()
+      require("copilot").setup()     -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
+      require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
+    end, 100)
+  end,
+})
 
 
 

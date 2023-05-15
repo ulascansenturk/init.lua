@@ -1,7 +1,7 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
-lvim.colorscheme = "onedark"
+lvim.colorscheme = "lunar"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 --
@@ -19,30 +19,6 @@ lvim.transparent_window = false
 
 
 vim.opt.shell = "/bin/sh"
-
-vim.opt.termguicolors = true
-vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
-
-vim.opt.list = true
-vim.opt.listchars:append "space:⋅"
-vim.opt.listchars:append "eol:↴"
-
-require("indent_blankline").setup {
-  space_char_blankline = " ",
-  char_highlight_list = {
-    "IndentBlanklineIndent1",
-    "IndentBlanklineIndent2",
-    "IndentBlanklineIndent3",
-    "IndentBlanklineIndent4",
-    "IndentBlanklineIndent5",
-    "IndentBlanklineIndent6",
-  },
-}
 
 
 lvim.builtin.which_key.mappings["x"] = { "<cmd>Telescope projects<CR>", "Projects" }
@@ -68,7 +44,7 @@ keymap("n", "fmt", ":GoFmt<CR>")
 keymap("n", "mmm", ":GoImports<CR>")
 
 
-keymap("n", "<Leader>c", ":lua require('ror.commands').list_commands()<CR>", { silent = true })
+keymap("n", "tt", ":lua require('ror.commands').list_commands()<CR>", { silent = true })
 
 keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
 keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
@@ -84,17 +60,6 @@ keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 
 
 keymap("n", "<Leader>tt", "<cmd>Lspsaga term_toggle<CR>")
-
-
-
-
-
-
-
-
-
-
-
 
 
 local tbuiltin = require("telescope.builtin")
@@ -309,11 +274,6 @@ table.insert(lvim.plugins, {
     end, 100)
   end,
 })
-
-
-
-
-
 
 
 require("nvim-treesitter.configs").setup {

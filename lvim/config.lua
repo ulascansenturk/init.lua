@@ -10,21 +10,30 @@ keymap('i', 'jj', '<ESC>')
 keymap('i', 'kk', '<ESC>')
 
 
-
+lvim.transparent_window = true
 
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
 
-
 -- Go
 keymap("n", "fmt", ":GoFmt<CR>")
-keymap("n", "mmm", ":GoImports<CR>")
+keymap("n", "mmm", ":GoFillStruct<CR>")
+keymap("n", "gt", ":GoTest<CR>")
+keymap("n", "gtf", ":GoTestFunc<CR>")
+
+
+keymap("n", ",,", ":resize +10<CR>")
+
 
 
 --  General
-lvim.builtin.lualine.style = "lvim" -- or "none"
+lvim.builtin.lualine.style = "none"
+
+
+
+
 lvim.log.level = "info"
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
@@ -32,6 +41,7 @@ lvim.builtin.treesitter.auto_install = true
 lvim.builtin.treesitter.ensure_installed = { "comment", "markdown_inline", "regex", "ruby", "go", "json", "yaml" }
 vim.opt.termguicolors = true
 
+lvim.colorscheme = 'lunar'
 
 
 lvim.format_on_save = {
@@ -39,7 +49,6 @@ lvim.format_on_save = {
   pattern = "*.lua",
   timeout = 1000,
 }
-
 
 
 -- Stlye linting
@@ -55,15 +64,17 @@ formatters.setup({
   { command = "goimports", filetypes = { "go" } },
   { command = "gofmt",     filetypes = { "go" } },
 })
-local linters = require("lvim.lsp.null-ls.linters")
-linters.setup({
-  { command = "flake8",        filetypes = { "python" } },
-  {
-    command = "shellcheck",
-    args = { "--severity", "warning" },
-  },
-  { command = "golangci-lint", filetypes = { "go" } },
-})
+-- local linters = require("lvim.lsp.null-ls.linters")
+
+
+-- linters.setup({
+--   { command = "flake8",        filetypes = { "python" } },
+--   {
+--     command = "shellcheck",
+--     args = { "--severity", "warning" },
+--   },
+--   { command = "golangci-lint", filetypes = { "go" } },
+-- })
 
 
 -- Plugins
@@ -90,9 +101,6 @@ lvim.plugins = {
     "fatih/vim-go",
   },
   {
-    'weizheheng/ror.nvim'
-  },
-  {
     'rcarriga/nvim-notify'
   },
   {
@@ -102,6 +110,29 @@ lvim.plugins = {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
   },
+  {
+    'bluz71/vim-moonfly-colors'
+  },
+  {
+    'ellisonleao/gruvbox.nvim'
+  },
+  {
+    'rebelot/kanagawa.nvim'
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
+
+
 
 }
 
@@ -272,34 +303,19 @@ require("dressing").setup({
   },
 })
 
--- The default settings
-require("ror").setup({
-  test = {
-    message = {
-      -- These are the default title for nvim-notify
-      file = "Running test file...",
-      line = "Running single test..."
-    },
-    coverage = {
-      -- To customize replace with the hex color you want for the highlight
-      -- guibg=#354a39
-      up = "DiffAdd",
-      -- guibg=#4a3536
-      down = "DiffDelete",
-    },
-    notification = {
-      -- Using timeout false will replace the progress notification window
-      -- Otherwise, the progress and the result will be a different notification window
-      timeout = false
-    },
-    pass_icon = "✅",
-    fail_icon = "❌"
-  }
+table.insert(lvim.plugins, {
+  "zbirenbaum/copilot-cmp",
+  event = "InsertEnter",
+  dependencies = { "zbirenbaum/copilot.lua" },
+  config = function()
+    vim.defer_fn(function()
+      require("copilot").setup()     -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
+      require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
+    end, 100)
+  end,
 })
 
--- Set a keybind
--- This "list_commands()" will show a list of all the available commands to run
-keymap("n", "<S-t>", ":lua require('ror.commands').list_commands()<CR>", { silent = true })
+
 
 lvim.builtin.which_key.mappings["t"] = {
   name = "Diagnostics",

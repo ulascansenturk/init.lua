@@ -23,6 +23,8 @@ keymap("n", "mmm", ":GoFillStruct<CR>")
 keymap("n", "gt", ":GoTest<CR>")
 keymap("n", "gtf", ":GoTestFunc<CR>")
 
+keymap("n", "gmm", ":GoImplements<CR>")
+
 
 keymap("n", ",,", ":resize +10<CR>")
 
@@ -38,10 +40,11 @@ lvim.log.level = "info"
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.treesitter.auto_install = true
-lvim.builtin.treesitter.ensure_installed = { "comment", "markdown_inline", "regex", "ruby", "go", "json", "yaml" }
+lvim.builtin.treesitter.ensure_installed = { "comment", "markdown_inline", "regex", "ruby", "go", "json", "yaml",
+  "solidity" }
 vim.opt.termguicolors = true
 
-lvim.colorscheme = 'lunar'
+lvim.colorscheme = 'nightfox'
 
 
 lvim.format_on_save = {
@@ -107,10 +110,6 @@ lvim.plugins = {
     'stevearc/dressing.nvim',
   },
   {
-    "folke/trouble.nvim",
-    cmd = "TroubleToggle",
-  },
-  {
     'bluz71/vim-moonfly-colors'
   },
   {
@@ -131,10 +130,53 @@ lvim.plugins = {
       require("copilot_cmp").setup()
     end,
   },
+  {
+    'tzachar/cmp-tabnine',
+    build = './install.sh',
+    dependencies = 'hrsh7th/nvim-cmp',
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      local palette = require("nightfox.palette").load("nightfox")
+      require("nightfox").setup({
+        options = { transparent = true },
+        groups = {
+          all = {
+            TelescopeBorder = { fg = palette.fg3 },
+          },
+          nightfox = {
+            Visual = { bg = palette.bg1 },
+          },
+        },
+      })
+      vim.cmd.colorscheme("nightfox")
+    end,
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    lazy = false,
+    opts = {},
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+    },
+    lazy = false,
+  },
+  {
+    "tpope/vim-fugitive",
+  }
+
 
 
 
 }
+
 
 require("dressing").setup({
   input = {
@@ -317,12 +359,22 @@ table.insert(lvim.plugins, {
 
 
 
-lvim.builtin.which_key.mappings["t"] = {
-  name = "Diagnostics",
-  t = { "<cmd>TroubleToggle<cr>", "trouble" },
-  w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
-  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
-  q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
-  l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
-  r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
-}
+-- lvim.builtin.which_key.mappings["t"] = {
+--   name = "Diagnostics",
+--   t = { "<cmd>TroubleToggle<cr>", "trouble" },
+--   w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
+--   d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
+--   q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+--   l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+--   r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+-- }
+--
+--
+
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.sol",
+  callback = function()
+    vim.cmd("silent! !forge fmt")
+  end,
+})

@@ -2,35 +2,35 @@
 local keymap = vim.keymap.set
 local tbuiltin = require("telescope.builtin")
 
--- Key mappings
-keymap("n", "<Space>lg", tbuiltin.live_grep, {})
-keymap("n", "<Space>x", tbuiltin.treesitter)
+-- key mappings
+keymap("n", "<space>lg", tbuiltin.live_grep, {})
+keymap("n", "<space>x", tbuiltin.treesitter)
 
-keymap('i', 'jj', '<ESC>')
-keymap('i', 'kk', '<ESC>')
+keymap('i', 'jj', '<esc>')
+keymap('i', 'kk', '<esc>')
 
 
 lvim.transparent_window = true
 
-lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
-lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<s-l>"] = ":bufferlinecyclenext<cr>"
+lvim.keys.normal_mode["<s-h>"] = ":bufferlinecycleprev<cr>"
+lvim.keys.normal_mode["<c-s>"] = ":w<cr>"
 
 
--- Go
-keymap("n", "fmt", ":GoFmt<CR>")
-keymap("n", "mmm", ":GoFillStruct<CR>")
-keymap("n", "gt", ":GoTest<CR>")
-keymap("n", "gtf", ":GoTestFunc<CR>")
+-- go
+keymap("n", "fmt", ":gofmt<cr>")
+keymap("n", "mmm", ":gofillstruct<cr>")
+keymap("n", "gt", ":gotest<cr>")
+keymap("n", "gtf", ":gotestfunc<cr>")
 
-keymap("n", "gmm", ":GoImplements<CR>")
-
-
-keymap("n", ",,", ":resize +10<CR>")
+keymap("n", "gmm", ":goimplements<cr>")
 
 
+keymap("n", ",,", ":resize +10<cr>")
 
---  General
+
+
+--  general
 lvim.builtin.lualine.style = "none"
 
 
@@ -54,7 +54,7 @@ lvim.format_on_save = {
 }
 
 
--- Stlye linting
+-- stlye linting
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
   { command = "stylua" },
@@ -80,23 +80,23 @@ formatters.setup({
 -- })
 
 
--- Plugins
+-- plugins
 lvim.plugins = {
   {
     "karb94/neoscroll.nvim",
-    event = "WinScrolled",
+    event = "winscrolled",
     config = function()
       require("neoscroll").setup({
-        -- All these keys will be mapped to their corresponding default scrolling animation
-        mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-        hide_cursor = true,          -- Hide cursor while scrolling
-        stop_eof = true,             -- Stop at <EOF> when scrolling downwards
-        use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-        respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-        easing_function = nil,       -- Default easing function
-        pre_hook = nil,              -- Function to run before the scrolling animation starts
-        post_hook = nil,             -- Function to run after the scrolling animation ends
+        -- all these keys will be mapped to their corresponding default scrolling animation
+        mappings = { "<c-u>", "<c-d>", "<c-b>", "<c-f>", "<c-y>", "<c-e>", "zt", "zz", "zb" },
+        hide_cursor = true,          -- hide cursor while scrolling
+        stop_eof = true,             -- stop at <eof> when scrolling downwards
+        use_local_scrolloff = false, -- use the local scope of scrolloff instead of the global scope
+        respect_scrolloff = false,   -- stop scrolling when the cursor reaches the scrolloff margin of the file
+        cursor_scrolls_alone = true, -- the cursor will keep on scrolling even if the window cannot scroll further
+        easing_function = nil,       -- default easing function
+        pre_hook = nil,              -- function to run before the scrolling animation starts
+        post_hook = nil,             -- function to run after the scrolling animation ends
       })
     end,
   },
@@ -120,8 +120,8 @@ lvim.plugins = {
   },
   {
     "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
+    cmd = "copilot",
+    event = "insertenter",
   },
   {
     "zbirenbaum/copilot-cmp",
@@ -136,7 +136,7 @@ lvim.plugins = {
     dependencies = 'hrsh7th/nvim-cmp',
   },
   {
-    "EdenEast/nightfox.nvim",
+    "edeneast/nightfox.nvim",
     lazy = false,
     priority = 1000,
     config = function()
@@ -145,10 +145,10 @@ lvim.plugins = {
         options = { transparent = true },
         groups = {
           all = {
-            TelescopeBorder = { fg = palette.fg3 },
+            telescopeborder = { fg = palette.fg3 },
           },
           nightfox = {
-            Visual = { bg = palette.bg1 },
+            visual = { bg = palette.bg1 },
           },
         },
       })
@@ -180,27 +180,27 @@ lvim.plugins = {
 
 require("dressing").setup({
   input = {
-    -- Set to false to disable the vim.ui.input implementation
+    -- set to false to disable the vim.ui.input implementation
     enabled = true,
 
-    -- Default prompt string
-    default_prompt = "Input:",
+    -- default prompt string
+    default_prompt = "input:",
 
-    -- Can be 'left', 'right', or 'center'
+    -- can be 'left', 'right', or 'center'
     title_pos = "left",
 
-    -- When true, <Esc> will close the modal
+    -- when true, <esc> will close the modal
     insert_only = true,
 
-    -- When true, input will start in insert mode.
+    -- when true, input will start in insert mode.
     start_in_insert = true,
 
-    -- These are passed to nvim_open_win
+    -- these are passed to nvim_open_win
     border = "rounded",
     -- 'editor' and 'win' will default to being centered
     relative = "cursor",
 
-    -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+    -- these can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
     prefer_width = 40,
     width = nil,
     -- min_width and max_width can be a list of mixed types.
@@ -210,34 +210,34 @@ require("dressing").setup({
 
     buf_options = {},
     win_options = {
-      -- Window transparency (0-100)
+      -- window transparency (0-100)
       winblend = 10,
-      -- Disable line wrapping
+      -- disable line wrapping
       wrap = false,
-      -- Indicator for when text exceeds window
+      -- indicator for when text exceeds window
       list = true,
       listchars = "precedes:…,extends:…",
-      -- Increase this for more context when text scrolls off the window
+      -- increase this for more context when text scrolls off the window
       sidescrolloff = 0,
     },
 
-    -- Set to `false` to disable
+    -- set to `false` to disable
     mappings = {
       n = {
-        ["<Esc>"] = "Close",
-        ["<CR>"] = "Confirm",
+        ["<esc>"] = "close",
+        ["<cr>"] = "confirm",
       },
       i = {
-        ["<C-c>"] = "Close",
-        ["<CR>"] = "Confirm",
-        ["<Up>"] = "HistoryPrev",
-        ["<Down>"] = "HistoryNext",
+        ["<c-c>"] = "close",
+        ["<cr>"] = "confirm",
+        ["<up>"] = "historyprev",
+        ["<down>"] = "historynext",
       },
     },
 
     override = function(conf)
-      -- This is the config that will be passed to nvim_open_win.
-      -- Change values here to customize the layout
+      -- this is the config that will be passed to nvim_open_win.
+      -- change values here to customize the layout
       return conf
     end,
 
@@ -245,21 +245,21 @@ require("dressing").setup({
     get_config = nil,
   },
   select = {
-    -- Set to false to disable the vim.ui.select implementation
+    -- set to false to disable the vim.ui.select implementation
     enabled = true,
 
-    -- Priority list of preferred vim.select implementations
+    -- priority list of preferred vim.select implementations
     backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
 
-    -- Trim trailing `:` from prompt
+    -- trim trailing `:` from prompt
     trim_prompt = true,
 
-    -- Options for telescope selector
-    -- These are passed into the telescope picker directly. Can be used like:
+    -- options for telescope selector
+    -- these are passed into the telescope picker directly. can be used like:
     -- telescope = require('telescope.themes').get_ivy({...})
     telescope = nil,
 
-    -- Options for fzf selector
+    -- options for fzf selector
     fzf = {
       window = {
         width = 0.5,
@@ -267,7 +267,7 @@ require("dressing").setup({
       },
     },
 
-    -- Options for fzf-lua
+    -- options for fzf-lua
     fzf_lua = {
       -- winopts = {
       --   height = 0.5,
@@ -275,7 +275,7 @@ require("dressing").setup({
       -- },
     },
 
-    -- Options for nui Menu
+    -- options for nui menu
     nui = {
       position = "50%",
       size = nil,
@@ -285,7 +285,7 @@ require("dressing").setup({
       },
       buf_options = {
         swapfile = false,
-        filetype = "DressingSelect",
+        filetype = "dressingselect",
       },
       win_options = {
         winblend = 10,
@@ -296,24 +296,24 @@ require("dressing").setup({
       min_height = 10,
     },
 
-    -- Options for built-in selector
+    -- options for built-in selector
     builtin = {
-      -- Display numbers for options and set up keymaps
+      -- display numbers for options and set up keymaps
       show_numbers = true,
-      -- These are passed to nvim_open_win
+      -- these are passed to nvim_open_win
       border = "rounded",
       -- 'editor' and 'win' will default to being centered
       relative = "editor",
 
       buf_options = {},
       win_options = {
-        -- Window transparency (0-100)
+        -- window transparency (0-100)
         winblend = 10,
         cursorline = true,
         cursorlineopt = "both",
       },
 
-      -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+      -- these can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
       -- the min_ and max_ options can be a list of mixed types.
       -- max_width = {140, 0.8} means "the lesser of 140 columns or 80% of total"
       width = nil,
@@ -323,21 +323,21 @@ require("dressing").setup({
       max_height = 0.9,
       min_height = { 10, 0.2 },
 
-      -- Set to `false` to disable
+      -- set to `false` to disable
       mappings = {
-        ["<Esc>"] = "Close",
-        ["<C-c>"] = "Close",
-        ["<CR>"] = "Confirm",
+        ["<esc>"] = "close",
+        ["<c-c>"] = "close",
+        ["<cr>"] = "confirm",
       },
 
       override = function(conf)
-        -- This is the config that will be passed to nvim_open_win.
-        -- Change values here to customize the layout
+        -- this is the config that will be passed to nvim_open_win.
+        -- change values here to customize the layout
         return conf
       end,
     },
 
-    -- Used to override format_item. See :help dressing-format
+    -- used to override format_item. see :help dressing-format
     format_item_override = {},
 
     -- see :help dressing_get_config
@@ -347,12 +347,12 @@ require("dressing").setup({
 
 table.insert(lvim.plugins, {
   "zbirenbaum/copilot-cmp",
-  event = "InsertEnter",
+  event = "insertenter",
   dependencies = { "zbirenbaum/copilot.lua" },
   config = function()
     vim.defer_fn(function()
-      require("copilot").setup()     -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
-      require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
+      require("copilot").setup()     -- https://github.com/zbirenbaum/copilot.lua/blob/master/readme.md#setup-and-configuration
+      require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/readme.md#configuration
     end, 100)
   end,
 })
@@ -360,21 +360,24 @@ table.insert(lvim.plugins, {
 
 
 -- lvim.builtin.which_key.mappings["t"] = {
---   name = "Diagnostics",
---   t = { "<cmd>TroubleToggle<cr>", "trouble" },
---   w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
---   d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
---   q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
---   l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
---   r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+--   name = "diagnostics",
+--   t = { "<cmd>troubletoggle<cr>", "trouble" },
+--   w = { "<cmd>troubletoggle workspace_diagnostics<cr>", "workspace" },
+--   d = { "<cmd>troubletoggle document_diagnostics<cr>", "document" },
+--   q = { "<cmd>troubletoggle quickfix<cr>", "quickfix" },
+--   l = { "<cmd>troubletoggle loclist<cr>", "loclist" },
+--   r = { "<cmd>troubletoggle lsp_references<cr>", "references" },
 -- }
 --
 --
 
 
-vim.api.nvim_create_autocmd("BufWritePost", {
+vim.api.nvim_create_autocmd("bufwritepost", {
   pattern = "*.sol",
   callback = function()
-    vim.cmd("silent! !forge fmt")
+    local foundry_project = vim.fn.glob("foundry.toml") ~= ""
+    if foundry_project then
+      vim.cmd("silent! !forge fmt")
+    end
   end,
 })
